@@ -174,12 +174,13 @@
 
 /* Responsives Design */
 @media (max-width: 768px) {
+
     .ecf-form-input,
     .ecf-form-textarea {
         padding: 10px 12px;
         font-size: 14px;
     }
-    
+
     .ecf-submit-button {
         padding: 10px 20px;
         font-size: 15px;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Elementor Comment Form - Admin-Einstellungsseite
  */
@@ -11,7 +12,7 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="wrap">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-    
+
     <div class="ecf-admin-container">
         <div class="ecf-admin-main">
             <form method="post" action="options.php">
@@ -22,7 +23,7 @@ if (!defined('ABSPATH')) {
                 ?>
             </form>
         </div>
-        
+
         <div class="ecf-admin-sidebar">
             <div class="ecf-admin-box">
                 <h3><?php _e('Verwendung', 'elementor-comment-form'); ?></h3>
@@ -34,7 +35,7 @@ if (!defined('ABSPATH')) {
                     <li><?php _e('Passen Sie das Formular nach Ihren Wünschen an.', 'elementor-comment-form'); ?></li>
                 </ol>
             </div>
-            
+
             <div class="ecf-admin-box">
                 <h3><?php _e('reCAPTCHA v3 Konfiguration', 'elementor-comment-form'); ?></h3>
                 <p><?php _e('Um Google reCAPTCHA v3 zu verwenden:', 'elementor-comment-form'); ?></p>
@@ -45,7 +46,7 @@ if (!defined('ABSPATH')) {
                     <li><?php _e('Kopieren Sie den Site-Key und Secret-Key in die Felder links.', 'elementor-comment-form'); ?></li>
                 </ol>
             </div>
-            
+
             <div class="ecf-admin-box">
                 <h3><?php _e('Honeypot vs. reCAPTCHA', 'elementor-comment-form'); ?></h3>
                 <p><?php _e('Sie können eine oder beide Spam-Schutzmaßnahmen aktivieren:', 'elementor-comment-form'); ?></p>
@@ -65,7 +66,7 @@ if (!defined('ABSPATH')) {
         gap: 20px;
         margin-top: 20px;
     }
-    
+
     .ecf-admin-main {
         flex: 1;
         min-width: 500px;
@@ -74,11 +75,11 @@ if (!defined('ABSPATH')) {
         padding: 20px;
         border-radius: 4px;
     }
-    
+
     .ecf-admin-sidebar {
         width: 300px;
     }
-    
+
     .ecf-admin-box {
         background: #fff;
         border: 1px solid #ddd;
@@ -86,18 +87,18 @@ if (!defined('ABSPATH')) {
         border-radius: 4px;
         margin-bottom: 20px;
     }
-    
+
     .ecf-admin-box h3 {
         margin-top: 0;
         padding-bottom: 10px;
         border-bottom: 1px solid #eee;
     }
-    
+
     @media (max-width: 960px) {
         .ecf-admin-container {
             flex-direction: column;
         }
-        
+
         .ecf-admin-sidebar {
             width: 100%;
         }

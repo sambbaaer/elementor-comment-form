@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Elementor Comment Form Widget
  */
@@ -9,13 +10,15 @@ if (!defined('ABSPATH')) {
 /**
  * Elementor-Widget-Klasse für das Kommentarformular
  */
-class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
+class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base
+{
 
     /**
      * Widget-Name zurückgeben
      * @return string
      */
-    public function get_name() {
+    public function get_name()
+    {
         return 'elementor_comment_form';
     }
 
@@ -23,7 +26,8 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
      * Widget-Titel zurückgeben
      * @return string
      */
-    public function get_title() {
+    public function get_title()
+    {
         return __('Kommentarformular', 'elementor-comment-form');
     }
 
@@ -31,7 +35,8 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
      * Widget-Symbol zurückgeben
      * @return string
      */
-    public function get_icon() {
+    public function get_icon()
+    {
         return 'eicon-comments';
     }
 
@@ -39,7 +44,8 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
      * Widget-Kategorien zurückgeben
      * @return array
      */
-    public function get_categories() {
+    public function get_categories()
+    {
         return ['general'];
     }
 
@@ -47,36 +53,40 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
      * Widget-Schlüsselwörter zurückgeben
      * @return array
      */
-    public function get_keywords() {
+    public function get_keywords()
+    {
         return ['kommentar', 'formular', 'comment', 'form'];
     }
 
     /**
      * Widget-Skripte registrieren
      */
-    public function get_script_depends() {
+    public function get_script_depends()
+    {
         $scripts = ['elementor-comment-form'];
-        
+
         // reCAPTCHA hinzufügen, wenn konfiguriert
         $options = get_option('ecf_settings');
         if (!empty($options['recaptcha_site_key'])) {
             $scripts[] = 'google-recaptcha';
         }
-        
+
         return $scripts;
     }
 
     /**
      * Widget-Stile registrieren
      */
-    public function get_style_depends() {
+    public function get_style_depends()
+    {
         return ['elementor-comment-form'];
     }
 
     /**
      * Register Widget Controls - hier definieren wir alle Anpassungsmöglichkeiten
      */
-    protected function register_controls() {
+    protected function register_controls()
+    {
         $this->start_controls_section(
             'section_content',
             [
@@ -242,295 +252,6 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
-
-        $this->end_controls_section();
-
-        // Styling-Controls für das Formular
-        $this->start_controls_section(
-            'section_form_style',
-            [
-                'label' => __('Formular-Stil', 'elementor-comment-form'),
-                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        $this->add_control(
-            'form_background_color',
-            [
-                'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-container' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Border::get_type(),
-            [
-                'name' => 'form_border',
-                'label' => __('Border', 'elementor-comment-form'),
-                'selector' => '{{WRAPPER}} .ecf-form-container',
-            ]
-        );
-
-        $this->add_responsive_control(
-            'form_border_radius',
-            [
-                'label' => __('Border Radius', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em'],
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'form_padding',
-            [
-                'label' => __('Padding', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em'],
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->end_controls_section();
-
-        // Label-Stil
-        $this->start_controls_section(
-            'section_label_style',
-            [
-                'label' => __('Label-Stil', 'elementor-comment-form'),
-                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        $this->add_control(
-            'label_color',
-            [
-                'label' => __('Textfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-label' => 'color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Typography::get_type(),
-            [
-                'name' => 'label_typography',
-                'selector' => '{{WRAPPER}} .ecf-form-label',
-            ]
-        );
-
-        $this->add_responsive_control(
-            'label_spacing',
-            [
-                'label' => __('Abstand zum Feld', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', 'em'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-label' => 'margin-bottom: {{SIZE}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->end_controls_section();
-
-        // Eingabefeld-Stil
-        $this->start_controls_section(
-            'section_input_style',
-            [
-                'label' => __('Eingabefeld-Stil', 'elementor-comment-form'),
-                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        $this->start_controls_tabs('tabs_input_style');
-
-        // Normal-Zustand
-        $this->start_controls_tab(
-            'tab_input_normal',
-            [
-                'label' => __('Normal', 'elementor-comment-form'),
-            ]
-        );
-
-        $this->add_control(
-            'input_background_color',
-            [
-                'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'input_text_color',
-            [
-                'label' => __('Textfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Typography::get_type(),
-            [
-                'name' => 'input_typography',
-                'selector' => '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea',
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Border::get_type(),
-            [
-                'name' => 'input_border',
-                'label' => __('Border', 'elementor-comment-form'),
-                'selector' => '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea',
-            ]
-        );
-
-        $this->add_responsive_control(
-            'input_border_radius',
-            [
-                'label' => __('Border Radius', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em'],
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'input_padding',
-            [
-                'label' => __('Padding', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em'],
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        $this->end_controls_tab();
-
-        // Hover-Zustand
-        $this->start_controls_tab(
-            'tab_input_hover',
-            [
-                'label' => __('Hover', 'elementor-comment-form'),
-            ]
-        );
-
-        $this->add_control(
-            'input_background_color_hover',
-            [
-                'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input:hover, {{WRAPPER}} .ecf-form-textarea:hover' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'input_text_color_hover',
-            [
-                'label' => __('Textfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input:hover, {{WRAPPER}} .ecf-form-textarea:hover' => 'color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'input_border_color_hover',
-            [
-                'label' => __('Border-Farbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input:hover, {{WRAPPER}} .ecf-form-textarea:hover' => 'border-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->end_controls_tab();
-
-        // Fokus-Zustand
-        $this->start_controls_tab(
-            'tab_input_focus',
-            [
-                'label' => __('Fokus', 'elementor-comment-form'),
-            ]
-        );
-
-        $this->add_control(
-            'input_background_color_focus',
-            [
-                'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'input_text_color_focus',
-            [
-                'label' => __('Textfarbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus' => 'color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'input_border_color_focus',
-            [
-                'label' => __('Border-Farbe', 'elementor-comment-form'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus' => 'border-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Box_Shadow::get_type(),
-            [
-                'name' => 'input_box_shadow_focus',
-                'label' => __('Box Shadow', 'elementor-comment-form'),
-                'selector' => '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus',
-            ]
-        );
-
-        $this->end_controls_tab();
-        $this->end_controls_tabs();
 
         $this->end_controls_section();
 
@@ -944,40 +665,41 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
     /**
      * Widget rendern
      */
-    protected function render() {
+    protected function render()
+    {
         // Widget-Einstellungen abrufen
         $settings = $this->get_settings_for_display();
-        
+
         // Post-ID für die Kommentare
         $post_id = get_the_ID();
-        
+
         // Eindeutige Form-ID erstellen
         $form_id = 'ecf-form-' . $this->get_id();
-        
+
         // Start des Ausgabe-Containers
-        ?>
+?>
         <div class="ecf-form-container">
             <div class="ecf-message-container" style="display: none;">
                 <div class="ecf-success-message" style="display: none;"></div>
                 <div class="ecf-error-message" style="display: none;"></div>
             </div>
-            
+
             <form id="<?php echo esc_attr($form_id); ?>" class="ecf-comment-form" method="post">
                 <input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>">
                 <input type="hidden" name="comment_parent" value="0">
-                
+
                 <?php
                 // Honeypot-Feld hinzufügen, wenn aktiviert
                 $options = get_option('ecf_settings');
                 if (!empty($options['use_honeypot'])) {
-                    ?>
+                ?>
                     <div class="ecf-honeypot-field" style="position: absolute; left: -9999px; visibility: hidden; opacity: 0;">
                         <input type="text" name="website_hp" value="">
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
-                
+
                 <div class="ecf-form-row">
                     <div class="ecf-form-group">
                         <label for="<?php echo esc_attr($form_id); ?>-author" class="ecf-form-label">
@@ -986,7 +708,7 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                         <input type="text" id="<?php echo esc_attr($form_id); ?>-author" name="author" class="ecf-form-input" placeholder="<?php echo esc_attr($settings['placeholder_name']); ?>" required>
                     </div>
                 </div>
-                
+
                 <div class="ecf-form-row">
                     <div class="ecf-form-group">
                         <label for="<?php echo esc_attr($form_id); ?>-email" class="ecf-form-label">
@@ -995,7 +717,7 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                         <input type="email" id="<?php echo esc_attr($form_id); ?>-email" name="email" class="ecf-form-input" placeholder="<?php echo esc_attr($settings['placeholder_email']); ?>" required>
                     </div>
                 </div>
-                
+
                 <div class="ecf-form-row">
                     <div class="ecf-form-group">
                         <label for="<?php echo esc_attr($form_id); ?>-url" class="ecf-form-label">
@@ -1004,7 +726,7 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                         <input type="url" id="<?php echo esc_attr($form_id); ?>-url" name="url" class="ecf-form-input" placeholder="<?php echo esc_attr($settings['placeholder_website']); ?>">
                     </div>
                 </div>
-                
+
                 <div class="ecf-form-row">
                     <div class="ecf-form-group">
                         <label for="<?php echo esc_attr($form_id); ?>-comment" class="ecf-form-label">
@@ -1013,11 +735,11 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                         <textarea id="<?php echo esc_attr($form_id); ?>-comment" name="comment" class="ecf-form-textarea" placeholder="<?php echo esc_attr($settings['placeholder_comment']); ?>" rows="6" required></textarea>
                     </div>
                 </div>
-                
+
                 <?php
                 // Datenschutz-Checkbox, wenn aktiviert
                 if ($settings['show_privacy'] === 'yes') {
-                    ?>
+                ?>
                     <div class="ecf-form-row">
                         <div class="ecf-privacy-checkbox-wrapper">
                             <input type="checkbox" id="<?php echo esc_attr($form_id); ?>-privacy" name="privacy_accepted" class="ecf-privacy-checkbox" required>
@@ -1025,33 +747,33 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                                 <?php
                                 // Text mit Link zur Datenschutzerklärung
                                 $privacy_text = $settings['privacy_text'];
-                                
+
                                 if (!empty($settings['privacy_link']['url'])) {
                                     $privacy_link = $settings['privacy_link']['url'];
                                     $privacy_link_target = $settings['privacy_link']['is_external'] ? ' target="_blank"' : '';
                                     $privacy_link_nofollow = $settings['privacy_link']['nofollow'] ? ' rel="nofollow"' : '';
-                                    
+
                                     // Text mit Link zur Datenschutzerklärung ersetzen
                                     $privacy_text = str_replace(__('Datenschutzerklärung', 'elementor-comment-form'), '<a href="' . esc_url($privacy_link) . '"' . $privacy_link_target . $privacy_link_nofollow . '>' . __('Datenschutzerklärung', 'elementor-comment-form') . '</a>', $privacy_text);
                                 }
-                                
+
                                 echo $privacy_text;
                                 ?>
                             </label>
                             <input type="hidden" name="privacy_required" value="yes">
                         </div>
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
-                
+
                 <div class="ecf-form-row">
                     <div class="ecf-submit-wrapper">
-                        <button type="submit" class="ecf-submit-button">
+                        <button type="submit" class="ecf-submit-button elementor-animation-<?php echo esc_attr($settings['button_hover_animation']); ?>">
                             <span class="ecf-button-text"><?php echo esc_html($settings['submit_button_text']); ?></span>
                             <span class="ecf-loading-icon" style="display: none;">
                                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="4" opacity="0.3"/>
+                                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="4" opacity="0.3" />
                                     <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="4" stroke-linecap="round">
                                         <animateTransform
                                             attributeName="transform"
@@ -1060,130 +782,314 @@ class Elementor_Comment_Form_Widget extends \Elementor\Widget_Base {
                                             from="0 12 12"
                                             to="360 12 12"
                                             dur="1s"
-                                            repeatCount="indefinite"
-                                        />
+                                            repeatCount="indefinite" />
                                     </path>
                                 </svg>
                             </span>
                         </button>
                     </div>
                 </div>
-                
+
                 <?php
                 // reCAPTCHA hinzufügen, wenn konfiguriert
-                $options = get_option('ecf_settings');
                 if (!empty($options['recaptcha_site_key'])) {
-                    ?>
+                ?>
                     <input type="hidden" name="recaptcha_token" class="ecf-recaptcha-token" value="">
-                    <?php
+                <?php
                 }
                 ?>
-                
+
                 <?php wp_nonce_field('ecf_ajax_nonce', 'nonce'); ?>
             </form>
         </div>
-        
-        <script>
-            (function($) {
-                $(document).ready(function() {
-                    // Formular-Variablen
-                    var $form = $('#<?php echo esc_attr($form_id); ?>');
-                    var $submitButton = $form.find('.ecf-submit-button');
-                    var $buttonText = $submitButton.find('.ecf-button-text');
-                    var $loadingIcon = $submitButton.find('.ecf-loading-icon');
-                    var $messageContainer = $form.closest('.ecf-form-container').find('.ecf-message-container');
-                    var $successMessage = $messageContainer.find('.ecf-success-message');
-                    var $errorMessage = $messageContainer.find('.ecf-error-message');
-                    
-                    // Formular-Verarbeitung
-                    $form.on('submit', function(e) {
-                        e.preventDefault();
-                        
-                        // Formular sperren und Ladezustand anzeigen
-                        $submitButton.prop('disabled', true);
-                        $buttonText.css('opacity', '0.5');
-                        $loadingIcon.show();
-                        
-                        // Meldungen zurücksetzen
-                        $messageContainer.hide();
-                        $successMessage.hide().text('');
-                        $errorMessage.hide().text('');
-                        
-                        <?php if (!empty($options['recaptcha_site_key'])) { ?>
-                        // reCAPTCHA-Token holen
-                        grecaptcha.ready(function() {
-                            grecaptcha.execute('<?php echo esc_attr($options['recaptcha_site_key']); ?>', {action: 'comment_submit'})
-                            .then(function(token) {
-                                $form.find('.ecf-recaptcha-token').val(token);
-                                submitForm();
-                            })
-                            .catch(function(error) {
-                                handleError('<?php echo esc_js($settings['error_message']); ?>');
-                            });
-                        });
-                        <?php } else { ?>
-                        // Formular direkt absenden
-                        submitForm();
-                        <?php } ?>
-                        
-                        // Formular per AJAX absenden
-                        function submitForm() {
-                            var formData = $form.serialize();
-                            
-                            $.ajax({
-                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                type: 'POST',
-                                data: {
-                                    action: 'submit_comment_form',
-                                    ...Object.fromEntries(new FormData($form[0]))
-                                },
-                                success: function(response) {
-                                    if (response.success) {
-                                        // Erfolg
-                                        if (response.data.moderation) {
-                                            $successMessage.text('<?php echo esc_js($settings['moderation_message']); ?>');
-                                        } else {
-                                            $successMessage.text('<?php echo esc_js($settings['success_message']); ?>');
-                                        }
-                                        
-                                        $messageContainer.show();
-                                        $successMessage.show();
-                                        
-                                        // Formular zurücksetzen
-                                        $form[0].reset();
-                                    } else {
-                                        // Fehler
-                                        handleError(response.data.message || '<?php echo esc_js($settings['error_message']); ?>');
-                                    }
-                                },
-                                error: function() {
-                                    // AJAX-Fehler
-                                    handleError('<?php echo esc_js($settings['error_message']); ?>');
-                                },
-                                complete: function() {
-                                    // Formular entsperren und Ladezustand ausblenden
-                                    $submitButton.prop('disabled', false);
-                                    $buttonText.css('opacity', '1');
-                                    $loadingIcon.hide();
-                                }
-                            });
-                        }
-                        
-                        // Fehlermeldung anzeigen
-                        function handleError(message) {
-                            $errorMessage.text(message);
-                            $messageContainer.show();
-                            $errorMessage.show();
-                            
-                            // Formular entsperren und Ladezustand ausblenden
-                            $submitButton.prop('disabled', false);
-                            $buttonText.css('opacity', '1');
-                            $loadingIcon.hide();
-                        }
-                    });
-                });
-            })(jQuery);
-        </script>
-        <?php
+<?php
     }
 }
+// Eingabefeld-Stil
+$this->start_controls_section(
+    'section_input_style',
+    [
+        'label' => __('Eingabefeld-Stil', 'elementor-comment-form'),
+        'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+    ]
+);
+
+$this->start_controls_tabs('tabs_input_style');
+
+// Normal-Zustand
+$this->start_controls_tab(
+    'tab_input_normal',
+    [
+        'label' => __('Normal', 'elementor-comment-form'),
+    ]
+);
+
+$this->add_control(
+    'input_background_color',
+    [
+        'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'input_text_color',
+    [
+        'label' => __('Textfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_group_control(
+    \Elementor\Group_Control_Typography::get_type(),
+    [
+        'name' => 'input_typography',
+        'selector' => '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea',
+    ]
+);
+
+$this->add_group_control(
+    \Elementor\Group_Control_Border::get_type(),
+    [
+        'name' => 'input_border',
+        'label' => __('Border', 'elementor-comment-form'),
+        'selector' => '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea',
+    ]
+);
+
+$this->add_responsive_control(
+    'input_border_radius',
+    [
+        'label' => __('Border Radius', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::DIMENSIONS,
+        'size_units' => ['px', '%', 'em'],
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+$this->add_responsive_control(
+    'input_padding',
+    [
+        'label' => __('Padding', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::DIMENSIONS,
+        'size_units' => ['px', '%', 'em'],
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input, {{WRAPPER}} .ecf-form-textarea' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+$this->end_controls_tab();
+
+// Hover-Zustand
+$this->start_controls_tab(
+    'tab_input_hover',
+    [
+        'label' => __('Hover', 'elementor-comment-form'),
+    ]
+);
+
+$this->add_control(
+    'input_background_color_hover',
+    [
+        'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input:hover, {{WRAPPER}} .ecf-form-textarea:hover' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'input_text_color_hover',
+    [
+        'label' => __('Textfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input:hover, {{WRAPPER}} .ecf-form-textarea:hover' => 'color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'input_border_color_hover',
+    [
+        'label' => __('Border-Farbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input:hover, {{WRAPPER}} .ecf-form-textarea:hover' => 'border-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->end_controls_tab();
+
+// Fokus-Zustand
+$this->start_controls_tab(
+    'tab_input_focus',
+    [
+        'label' => __('Fokus', 'elementor-comment-form'),
+    ]
+);
+
+$this->add_control(
+    'input_background_color_focus',
+    [
+        'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'input_text_color_focus',
+    [
+        'label' => __('Textfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus' => 'color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'input_border_color_focus',
+    [
+        'label' => __('Border-Farbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus' => 'border-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_group_control(
+    \Elementor\Group_Control_Box_Shadow::get_type(),
+    [
+        'name' => 'input_box_shadow_focus',
+        'label' => __('Box Shadow', 'elementor-comment-form'),
+        'selector' => '{{WRAPPER}} .ecf-form-input:focus, {{WRAPPER}} .ecf-form-textarea:focus',
+    ]
+);
+
+$this->end_controls_tab();
+$this->end_controls_tabs();
+
+$this->end_controls_section();
+
+// Styling-Controls für das Formular
+$this->start_controls_section(
+    'section_form_style',
+    [
+        'label' => __('Formular-Stil', 'elementor-comment-form'),
+        'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+    ]
+);
+
+$this->add_control(
+    'form_background_color',
+    [
+        'label' => __('Hintergrundfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-container' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_group_control(
+    \Elementor\Group_Control_Border::get_type(),
+    [
+        'name' => 'form_border',
+        'label' => __('Border', 'elementor-comment-form'),
+        'selector' => '{{WRAPPER}} .ecf-form-container',
+    ]
+);
+
+$this->add_responsive_control(
+    'form_border_radius',
+    [
+        'label' => __('Border Radius', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::DIMENSIONS,
+        'size_units' => ['px', '%', 'em'],
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+$this->add_responsive_control(
+    'form_padding',
+    [
+        'label' => __('Padding', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::DIMENSIONS,
+        'size_units' => ['px', '%', 'em'],
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+$this->end_controls_section();
+
+// Label-Stil
+$this->start_controls_section(
+    'section_label_style',
+    [
+        'label' => __('Label-Stil', 'elementor-comment-form'),
+        'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+    ]
+);
+
+$this->add_control(
+    'label_color',
+    [
+        'label' => __('Textfarbe', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-label' => 'color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_group_control(
+    \Elementor\Group_Control_Typography::get_type(),
+    [
+        'name' => 'label_typography',
+        'selector' => '{{WRAPPER}} .ecf-form-label',
+    ]
+);
+
+$this->add_responsive_control(
+    'label_spacing',
+    [
+        'label' => __('Abstand zum Feld', 'elementor-comment-form'),
+        'type' => \Elementor\Controls_Manager::SLIDER,
+        'size_units' => ['px', 'em'],
+        'range' => [
+            'px' => [
+                'min' => 0,
+                'max' => 50,
+            ],
+            'em' => [
+                'min' => 0,
+                'max' => 5,
+            ],
+        ],
+        'selectors' => [
+            '{{WRAPPER}} .ecf-form-label' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
+$this->end_controls_section();
